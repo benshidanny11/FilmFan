@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#C0BFBF</color>
+    <color name="colorAccent">#EC0518</color>
+    <color name="txtColor">#4D4A4B</color>
+    <color name="inactiveItemColor">#757373</color>
+    <color name="iconColor">#920303</color>
+    <color name="errorColor">#FF035B</color>
+    <color name="app_ripple">#C24470</color>
+
+    <color name="link_color">#00B7FF</color>
+</resources>
