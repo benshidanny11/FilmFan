@@ -1,0 +1,61 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:toold="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/_5sdp"
+    card_view:cardElevation="@dimen/_2sdp"
+    card_view:cardCornerRadius="@dimen/_3sdp"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp">
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/img_actor_in_item"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_60sdp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_baseline_account_box_24"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:padding="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_5sdp">
+            <TextView
+                android:id="@+id/txt_actor_name_in_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actor name"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="@dimen/_12sdp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:text="Actor role"
+                android:maxLength="150"
+                android:ellipsize="end"
+                android:textSize="@dimen/_11sdp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                android:layout_below="@+id/txt_actor_name_in_item"
+                android:id="@+id/txt_actor_role_in_item"/>
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

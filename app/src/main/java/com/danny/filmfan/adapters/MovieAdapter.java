@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.danny.filmfan.R;
 import com.danny.filmfan.constants.StringConstants;
+import com.danny.filmfan.data.DBHelper;
 import com.danny.filmfan.items.MovieItem;
 import com.danny.filmfan.ui.MovieDetailsActivity;
 import com.danny.filmfan.utlis.ComparatorUtil;
@@ -30,62 +31,93 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieHolder>
 
     private Context context;
     private ArrayList<MovieItem> movieItems;
-    FagoriteMovieUtil fagoriteMovieUtil;
+    private DBHelper dbHelper;
+
 
     public MovieAdapter(Context context, ArrayList<MovieItem> movieItems) {
         this.context = context;
         this.movieItems = movieItems;
+
     }
 
     @NonNull
     @Override
     public MovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie,parent,false);
+        dbHelper=new DBHelper(context);
         return new MovieHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull final MovieHolder holder, int position) {
 
         final MovieItem movieItem=movieItems.get(position);
-        fagoriteMovieUtil=new FagoriteMovieUtil();
-        holder.txtMovieTitle.setText(movieItem.getMovieTitle());
-        holder.txtMediaType.setText(movieItem.getMovieOverview());
-        holder.txtMovieRealeseDate.setText("Released on "+movieItem.getReleaseDate());
-        holder.txtMovieVotes.setText(String.valueOf(movieItem.getAverageVote()));
-        Glide.with(context).load(StringConstants.API_IMG_LINK+movieItem.getMoviePoster()).placeholder(R.drawable.ic_baseline_play_arrow_24).into(holder.imgMoviePoster);
+        FagoriteMovieUtil fagoriteMovieUtil = new FagoriteMovieUtil();
 
-//        if (movieItem.isAddedToFavorite()){
-//           holder.btnAddToFaforite.setVisibility(View.GONE);
-//           holder.imgAddedToFavorite.setVisibility(View.VISIBLE);
-//        }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                Intent intent=new Intent(context, MovieDetailsActivity.class);
-                intent.putExtra("title",movieItem.getMovieTitle());
-                intent.putExtra("date",movieItem.getReleaseDate());
-                intent.putExtra("rating",movieItem.getAverageVote());
-                intent.putExtra("overview",movieItem.getMovieOverview());
-                intent.putExtra("genre",movieItem.getGenre().getInt(0));
-                intent.putExtra("poster",StringConstants.API_IMG_LINK+movieItem.getMoviePoster());
+        if (dbHelper.getMovieTitle(movieItem.getMovieId()).equals(movieItem.getMovieTitle())){
+            holder.btnAddToFaforite.setVisibility(View.GONE);
+            holder.imgAddedToFavorite.setVisibility(View.VISIBLE);
+            holder.txtMovieTitle.setText(movieItem.getMovieTitle());
+            holder.txtMediaType.setText(movieItem.getMovieOverview());
+            holder.txtMovieRealeseDate.setText("Released on "+movieItem.getReleaseDate());
+            holder.txtMovieVotes.setText(String.valueOf(movieItem.getAverageVote()));
+            Glide.with(context).load(StringConstants.API_IMG_LINK+movieItem.getMoviePoster()).placeholder(R.drawable.ic_baseline_play_arrow_24).into(holder.imgMoviePoster);
 
-                context.startActivity(intent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("id",movieItem.getMovieId());
+                    intent.putExtra("title",movieItem.getMovieTitle());
+                    intent.putExtra("date",movieItem.getReleaseDate());
+                    intent.putExtra("rating",movieItem.getAverageVote());
+                    intent.putExtra("overview",movieItem.getMovieOverview());
+                    intent.putExtra("genre",movieItem.getGenre());
+                    intent.putExtra("poster",StringConstants.API_IMG_LINK+movieItem.getMoviePoster());
+                    intent.putExtra("item",movieItem);
+                    context.startActivity(intent);
+
                 }
-            }
-        });
-        holder.btnAddToFaforite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                movieItem.setAddedToFavorite(true);
-                fagoriteMovieUtil.addFavoriteMovie(movieItem);
-                holder.btnAddToFaforite.setVisibility(View.GONE);
-                holder.imgAddedToFavorite.setVisibility(View.VISIBLE);
-            }
-        });
+            });
+        }else{
+
+            holder.btnAddToFaforite.setVisibility(View.VISIBLE);
+            holder.imgAddedToFavorite.setVisibility(View.GONE);
+            holder.txtMovieTitle.setText(movieItem.getMovieTitle());
+            holder.txtMediaType.setText(movieItem.getMovieOverview());
+            holder.txtMovieRealeseDate.setText("Released on "+movieItem.getReleaseDate());
+            holder.txtMovieVotes.setText(String.valueOf(movieItem.getAverageVote()));
+            Glide.with(context).load(StringConstants.API_IMG_LINK+movieItem.getMoviePoster()).placeholder(R.drawable.ic_baseline_play_arrow_24).into(holder.imgMoviePoster);
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(context, MovieDetailsActivity.class);
+                    intent.putExtra("title",movieItem.getMovieTitle());
+                    intent.putExtra("id",movieItem.getMovieId());
+                    intent.putExtra("date",movieItem.getReleaseDate());
+                    intent.putExtra("rating",movieItem.getAverageVote());
+                    intent.putExtra("overview",movieItem.getMovieOverview());
+                    intent.putExtra("genre",movieItem.getGenre());
+                    intent.putExtra("poster",StringConstants.API_IMG_LINK+movieItem.getMoviePoster());
+
+                    context.startActivity(intent);
+
+                }
+            });
+            holder.btnAddToFaforite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dbHelper.addToFaforite(movieItem);
+                    holder.btnAddToFaforite.setVisibility(View.GONE);
+                    holder.imgAddedToFavorite.setVisibility(View.VISIBLE);
+                    notifyDataSetChanged();
+                }
+            });
+        }
+
+
 
     }
 

@@ -2,17 +2,19 @@ package com.danny.filmfan.items;
 
 import org.json.JSONArray;
 
-public class MovieItem{
+import java.io.Serializable;
+
+public class MovieItem implements Serializable {
 
     int movieId;
     String movieTitle,moviePoster,releaseDate,movieOverview;
     double averageVote;
     boolean isAddedToFavorite;
-    JSONArray genre;
+    int genre;
     double rating;
 
 
-    public MovieItem(int movieId, String movieTitle, String moviePoster, String releaseDate,  String movieOverview, double averageVote, boolean isAddedToFavorite, JSONArray genre, double rating) {
+    public MovieItem(int movieId, String movieTitle, String moviePoster, String releaseDate,  String movieOverview, double averageVote, boolean isAddedToFavorite, int genre, double rating) {
         this.movieId = movieId;
         this.movieTitle = movieTitle;
         this.moviePoster = moviePoster;
@@ -37,8 +39,16 @@ public class MovieItem{
         return movieOverview;
     }
 
-    public JSONArray getGenre() {
+    public int getGenre() {
         return genre;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public double getRating() {
+        return rating;
     }
 
     public String getMovieTitle() {

@@ -26,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.danny.filmfan.R;
 import com.danny.filmfan.adapters.MovieAdapter;
 import com.danny.filmfan.constants.StringConstants;
+import com.danny.filmfan.data.DBHelper;
 import com.danny.filmfan.items.MovieItem;
 import com.danny.filmfan.utlis.ClientSSLSocketFactory;
 
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<MovieItem> movieItems;
     private MovieAdapter movieAdapter;
     private ProgressBar progressBar;
-    Toolbar toolbar;
+    private DBHelper dbHelper;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar=(ProgressBar)findViewById(R.id.progress_in_main);
         toolbar=(Toolbar)findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        dbHelper=new DBHelper(this);
         fetchData();
 
     }
@@ -72,16 +75,15 @@ public class MainActivity extends AppCompatActivity {
                                 JSONArray array = j.getJSONArray("results");
                                 for (int i = 0; i < array.length(); i++) {
                                     JSONObject O = array.getJSONObject(i);
-                                    Intent intent=new Intent();
-
-                                    MovieItem movieItem=new MovieItem(O.getInt("id"),
+                                    MovieItem movieItem;
+                                    movieItem =new MovieItem(O.getInt("id"),
                                             O.getString("title"),
                                             O.getString("poster_path"),
                                             O.getString("release_date"),
                                             O.getString("overview"),
                                             O.getDouble("vote_average"),
                                             false,
-                                            O.getJSONArray("genre_ids"),
+                                            O.getJSONArray("genre_ids").getInt(0),
                                             O.getDouble("popularity")
                                     );
 
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 e.printStackTrace();
                             }catch (Exception e){
-                                Toast.makeText(MainActivity.this, StringConstants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                     null, ClientSSLSocketFactory.getSocketFactory(MainActivity.this)));
             requestQueue.add(stringRequest);
         }catch (Exception e){
-            Toast.makeText(MainActivity.this, StringConstants.ERROR_MESSAGE, Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -154,20 +154,91 @@
                 </RelativeLayout>
 
             </LinearLayout>
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:padding="@dimen/_10sdp"
+        android:background="#F6F5F5"
+        android:textColor="#454444"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Actors"/>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_actors_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
+            android:id="@+id/progress_actors_in_details"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginTop="@dimen/_2sdp"
+        android:padding="@dimen/_10sdp"
+        android:background="#F6F5F5"
+        android:textColor="#454444"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <Button
+            android:id="@+id/btn_load_recommended"
+            android:textAllCaps="false"
+            android:textColor="@color/iconColor"
+            android:background="@drawable/btn_back"
+            android:text="Recommended movies"
+            android:padding="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        </Button>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/lyt_similar_movie_container"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rec_similar_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <ProgressBar
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:visibility="gone"
+            android:id="@+id/progress_in_details"/>
+    </RelativeLayout>
+</LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="@dimen/_60sdp"
-        android:layout_margin="@dimen/_8sdp"
         card_view:cardElevation="@dimen/_2sdp"
         card_view:cardCornerRadius="@dimen/_3sdp"
-        android:padding="@dimen/_5sdp"
+
         android:layout_alignParentBottom="true"
         android:id="@+id/bottom_container"
         >
         <RelativeLayout
+            android:padding="@dimen/_10sdp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
@@ -178,7 +249,10 @@
                 android:text="Rate movie here"
                 />
             <RatingBar
+                android:stepSize="1.0"
+                android:numStars="5"
                 style="?attr/ratingBarStyleIndicator"
+                android:isIndicator="false"
                 android:id="@+id/m_rating_in_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
